@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Personal Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+        }
+        .dashboard-container {
+            max-width: 600px;
+            margin: 40px auto 0 auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px #0002;
+            padding: 32px 28px 28px 28px;
+        }
+        h1 {
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 28px;
+            background: linear-gradient(90deg, #ff0000,#fff700,#ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 2rem;
+        }
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+            justify-content: center;
+        }
+        .tab-btn {
+            padding: 10px 26px;
+            background: #6366f1;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px #6366f11a;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            background: linear-gradient(to top, #ff0000,#fff700,#fff700,#ff0000);
+            color: black;
+        }
+        .tab-content {
+            display: none;
+            background: #f9fafb;
+            padding: 28px 22px 18px 22px;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 2px 12px #6366f11a;
+            margin-bottom: 10px;
+            animation: fadeIn 0.4s;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .error {
+            color: #ef4444;
+            font-weight: 500;
+        }
+        .result {
+            margin-top: 12px;
+            color: #2563eb;
+            font-size: 1.05rem;
+        }
+        input, select {
+            padding: 10px 12px;
+            margin: 6px 0 0 0;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: #f3f4f6;
+            transition: border 0.2s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            border: 1.5px solid #6366f1;
+            outline: none;
+        }
+        label {
+            display: block;
+            margin-top: 16px;
+            font-weight: 500;
+            color: #374151;
+        }
+        button, .tab-btn {
+            margin-top: 14px;
+        }
+        button[type="submit"], button[onclick], .tab-btn {
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #ea3030, #8b5cf6);
+            color: #fff;
+            padding: 10px 24px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #6366f11a;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        button[type="submit"]:hover, button[onclick]:hover, .tab-btn:hover {
+            background: #ca3838;
+        }
+        pre {
+            background: #f3f4f6;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 0.98rem;
+            margin-top: 10px;
+            color: #374151;
+            box-shadow: 0 1px 4px #6366f11a;
+        }
+        form {
+            margin-bottom: 0;
+        }
+        @media (max-width: 700px) {
+            .dashboard-container {
+                max-width: 98vw;
+                padding: 10px 2vw 10px 2vw;
+            }
+            .tab-content {
+                padding: 16px 4vw 10px 4vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Student Personal Dashboard</h1>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="profile">Profile</button>
+            <button class="tab-btn" data-tab="age">Age Checker</button>
+            <button class="tab-btn" data-tab="greeting">Greeting</button>
+            <button class="tab-btn" data-tab="calculator">Calculator</button>
+            <button class="tab-btn" data-tab="quotes">Quotes</button>
+        </div>
+
+        <div id="profile" class="tab-content active">
+            <h2>Profile</h2>
+            <form id="profileForm">
+                <label>Name:
+                    <input type="text" id="name" placeholder="Enter your name">
+                </label>
+                <label>Birth Year:
+                    <input type="number" id="birthYear" min="1900" max="2100" placeholder="e.g. 2000">
+                </label>
+                <label>City:
+                    <input type="text" id="city" placeholder="Enter your city">
+                </label>
+                <label>Gender:</label>
+                <label style="display:inline-block; margin-right:16px;">
+                    <input type="radio" class="gender" name="gender" value="Male"> Male
+                </label>
+                <label style="display:inline-block;">
+                    <input type="radio" class="gender" name="gender" value="Female"> Female
+                </label>
+                <br> <br>
+                <button type="submit">Save Profile</button>
+            </form>
+            <div class="result" id="profileResult"></div>
+            <h3 style="margin-top:18px;">Your Info (JSON):</h3>
+            <pre id="jsonInfo"></pre>
+        </div>
+
+        <div id="age" class="tab-content">
+            <h2>Age Checker</h2>
+            <button onclick="checkAge()">Check Age & Eligibility</button>
+            <div class="result" id="ageResult"></div>
+            <pre id="ageInfo"></pre>
+        </div>
+
+        <div id="greeting" class="tab-content">
+            <h2>Greeting</h2>
+            <button onclick="showGreeting()">Show Greeting</button>
+            <div class="result" id="greetingResult"></div>
+            <pre id="greetingInfo"></pre>
+        </div>
+
+        <div id="calculator" class="tab-content">
+            <h2>Calculator</h2>
+            <label>Number 1:
+                <input type="number" id="num1" placeholder="First number">
+            </label>
+            <label>Number 2:
+                <input type="number" id="num2" placeholder="Second number">
+            </label>
+            <select id="operation">
+                <option value="add">+</option>
+                <option value="sub">-</option>
+                <option value="mul">*</option>
+                <option value="div">/</option>
+            </select>
+            <button onclick="calculate()">Calculate</button>
+            <div class="result" id="calcResult"></div>
+            <pre id="calcInfo"></pre>
+        </div>
+
+        <div id="quotes" class="tab-content">
+            <h2>Motivational Quote</h2>
+            <button onclick="showQuote()">Show Random Quote</button>
+            <div class="result" id="quoteResult"></div>
+            <pre id="quoteInfo"></pre>
+        </div>
+    </div>
+
+    <script src="task.js"></script>
+</body>
+</html>
