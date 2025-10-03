@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Event Registration & Score Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container modern-ui">
+        <h1><span class="icon">🎮</span> Virtual Event Registration & Score Tracker</h1>
+        <section id="registration-section" class="card">
+            <h2>Register</h2>
+            <form id="registration-form">
+                <div class="form-row">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required placeholder="Enter your name">
+                </div>
+                <div class="form-row">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required placeholder="Enter your email">
+                </div>
+                <div class="form-row">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" required placeholder="Enter your age" min="12">
+                </div>
+                                <div class="register-btn-center">
+                                    <button type="submit" class="primary-btn">Register</button>
+                                </div>
+            </form>
+            <div id="registration-error" class="error"></div>
+        </section>
+
+        <section id="quiz-section" style="display:none;" class="card">
+            <h2>Quiz</h2>
+            <form id="quiz-form"></form>
+            <button id="submit-quiz" style="display:none;" class="primary-btn">Submit Answers</button>
+            <div id="quiz-error" class="error"></div>
+        </section>
+
+        <section id="result-section" style="display:none;" class="card">
+            <h2>Result</h2>
+            <div id="calculating" style="display:none;">Calculating result...</div>
+            <div id="result-summary"></div>
+            <pre id="json-output"></pre>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
