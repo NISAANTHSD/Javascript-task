@@ -5,7 +5,7 @@ let z;
 if(x==="SSG" && y==="SSGBIT"){
     let a=confirm("Do you want to know about SSG ?");
     if(a===true){
-        z=Number(prompt("1 = High package pacement, 2 = Startups, 3 = Higher studies"));
+        z=Number(prompt("1 = High package pacement, 2 = Startups, 3 = Higher studies , 4=xyz "));
         switch(z){
             case 1:
                 alert("You selected High package pacement !");
@@ -15,6 +15,9 @@ if(x==="SSG" && y==="SSGBIT"){
                 break;
             case 3:
                 alert("You selected Higher studies !");
+                break;
+            case 4:
+                alert("xyz");
                 break;
             default:
                 alert("Invalid Option");

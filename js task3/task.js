@@ -5,8 +5,10 @@ if(a>=0)
     z=Number(prompt("1=Withdraw,\n 2=Deposit,\n 3=Check Balance"));
     switch(z){
         case 1:
+            let c1=10000;
             b=prompt("Enter Amount ?");
-            alert("Withdraw Successful ! New Balance : 800");
+            c1-=b;
+            alert("Withdraw Successful ! New Balance : "+ c1);
             break;
         case 2:
             c=prompt("Enter Amount");
@@ -18,6 +20,5 @@ if(a>=0)
         default:
             alert("Invalid Input");
             break
-
     }
 }

@@ -1,4 +1,4 @@
-let num="12";
+let num="11";
 let a=Number(num);
 if(a%2==0)
 {
