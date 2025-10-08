@@ -73,7 +73,6 @@ function checkAge() {
 	} else {
 		eligible = "You are not eligible (under 18).";
 	}
-	// document.getElementById('ageResult').innerHTML = 'Your age: <b>' + age + '</b><br>' + eligible;
 }
 
 // Greeting

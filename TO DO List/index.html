@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple To-Do List with Finish Time</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background-color: #f0f0f0;
+      margin: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    input {
+      padding: 5px;
+      margin: 5px;
+    }
+
+    button {
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      background: white;
+      margin: 8px auto;
+      padding: 10px;
+      width: 400px;
+      border-radius: 5px;
+      text-align: left;
+      position: relative;
+      border-left: 10px solid gray; /* default color */
+    }
+
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    .buttons {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+
+    .green {
+      border-left-color: green;
+    }
+
+    .red {
+      border-left-color: red;
+    }
+
+    .time {
+      font-size: 12px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Simple To-Do List ⏰</h1>
+
+  <input type="text" id="taskInput" placeholder="Enter a task">
+  <input type="time" id="finishTime">
+  <button onclick="addTask()">Add Task</button>
+
+  <ul id="taskList"></ul>
+
+  <script>
+    let tasks = [];
+
+    // Add task with finish time
+    function addTask() {
+      let name = document.getElementById("taskInput").value.trim();
+      let finishTime = document.getElementById("finishTime").value;
+
+      let promise = new Promise((resolve, reject) => {
+        if (name === "" || finishTime === "") {
+          reject("Please enter both task name and finish time!");
+        } else {
+          let task = {
+            id: Date.now(),
+            name: name,
+            completed: false,
+            createdAt: new Date(),
+            finishTime: finishTime,
+            completedAt: null,
+            statusColor: "gray"
+          };
+          tasks.push(task);
+          resolve("Task added!");
+        }
+      });
+
+      promise
+        .then(msg => {
+          alert(msg);
+          document.getElementById("taskInput").value = "";
+          document.getElementById("finishTime").value = "";
+          viewTasks();
+        })
+        .catch(err => alert(err));
+    }
+
+    // Display tasks
+    function viewTasks() {
+      let list = document.getElementById("taskList");
+      list.innerHTML = "";
+
+      if (tasks.length === 0) {
+        list.innerHTML = "<li>No tasks found!</li>";
+        return;
+      }
+
+      for (let t of tasks) {
+        let li = document.createElement("li");
+        li.classList.add(t.statusColor);
+
+        let text = document.createElement("div");
+        text.innerHTML = `
+          <span class="${t.completed ? 'completed' : ''}">
+            ${t.name}
+          </span><br>
+          <span class="time">Created: ${t.createdAt.toLocaleTimeString()} | 
+          Finish by: ${t.finishTime}
+          ${t.completedAt ? `<br>Finished: ${t.completedAt.toLocaleTimeString()}` : ""}
+          </span>`;
+
+        let btnDiv = document.createElement("div");
+        btnDiv.className = "buttons";
+
+        let doneBtn = document.createElement("button");
+        doneBtn.textContent = "✔️ Done";
+        doneBtn.onclick = () => markCompleted(t.id);
+
+        let delBtn = document.createElement("button");
+        delBtn.textContent = "🗑️ Delete";
+        delBtn.onclick = () => deleteTask(t.id);
+
+        btnDiv.appendChild(doneBtn);
+        btnDiv.appendChild(delBtn);
+
+        li.appendChild(text);
+        li.appendChild(btnDiv);
+        list.appendChild(li);
+      }
+    }
+
+    // Delete task
+    function deleteTask(id) {
+      try {
+        let index = tasks.findIndex(t => t.id === id);
+        if (index === -1) throw new Error("Task not found!");
+        tasks.splice(index, 1);
+        viewTasks();
+      } catch (e) {
+        alert(e.message);
+      }
+    }
+
+    // Mark completed
+    function markCompleted(id) {
+      let t = tasks.find(task => task.id === id);
+      if (t) {
+        t.completed = true;
+        t.completedAt = new Date();
+
+        // Compare finish times
+        let now = t.completedAt;
+        let finishParts = t.finishTime.split(":");
+        let finish = new Date(t.createdAt);
+        finish.setHours(finishParts[0], finishParts[1], 0, 0);
+
+        if (now <= finish) {
+          t.statusColor = "green"; // on time
+        } else {
+          t.statusColor = "red"; // late
+        }
+
+        viewTasks();
+      }
+    }
+
+    viewTasks();
+  </script>
+</body>
+</html>
